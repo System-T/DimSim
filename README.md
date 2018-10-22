@@ -31,12 +31,13 @@ dist = get_distance("大侠","大人")
 25.001417183349876
 ```
 ***
-Return top-k phonetically similar phrases of a given Chinese phrase
+Return top-k phonetically similar phrases of a given Chinese phrase. Two parameters:
+- **model** controls the character type of the returned Chinese phrases, where 'simplified' represents simplified Chinese and 'traditional' represents traditional Chinese.
+- **theta** controls the size of search space for the candidate phrases.
 ```python
 candidates = getCandidates("大侠", model="simplified", theta=1)
 ['打下', '大虾', '大侠']
 
-```python
 candidates = getCandidates("粉丝", mode="traditinoal", theta=1)
 ['門市', '分時', '焚屍', '粉飾', '粉絲']
 ```
