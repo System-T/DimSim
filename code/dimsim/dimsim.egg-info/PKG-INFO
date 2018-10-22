@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: dimsim
+Version: 0.1
+Summary: Python implementation of Chinese soundex
+Home-page: UNKNOWN
+Author: Kun Qian
+Author-email: qian.kun@ibm.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: Apache 2.0 License

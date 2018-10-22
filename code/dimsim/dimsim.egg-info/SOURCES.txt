@@ -1,0 +1,7 @@
+setup.py
+dimsim/__init__.py
+dimsim/dimsim.py
+dimsim.egg-info/PKG-INFO
+dimsim.egg-info/SOURCES.txt
+dimsim.egg-info/dependency_links.txt
+dimsim.egg-info/top_level.txt
