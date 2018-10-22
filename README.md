@@ -12,11 +12,13 @@ In this library, we provide a pre-trained model that can:
 
 
 ## How to install
+
+**Dependencies**: We use [pypinyin](https://github.com/mozillazg/python-pinyin) to convert Chinese characters into their correponding pinyins for internal computation. Install pypinyin before use our library
+
 There are two ways to install this library:
 - Download the source code from the **code** folder and compile it yourself.
 - run `pip install dimsim` (pending, needs to upload to pypi)
 
-### Dependencies
-We use [pypinyin](https://github.com/mozillazg/python-pinyin) to convert Chinese characters into their correponding pinyins for internal computation. Install pypinyin before use our library
+
 
 
