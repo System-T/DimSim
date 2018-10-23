@@ -18,8 +18,10 @@ In this library, we provide a pre-trained model that can:
 
 There are two ways to install this library:
 - Download the source code from the **code** folder and compile it yourself.
-- run `pip install dimsim` (pending, needs to upload to pypi)
-
+- run the following script to install
+ ```shell
+ pip install dimsim
+ ```
 
 ## How to use
 
