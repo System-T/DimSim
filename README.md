@@ -1,5 +1,5 @@
 # DimSim - A Chinese Soundex Library (Python version)
-(under construction)
+DimSim is developed by the research team at IBM Almaden Research Center. 
 
 ## Overview
 We provide a phonetic algorithm for indexing Chinese characters by sound. The technical details can be found in the following paper:
