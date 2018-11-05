@@ -1,6 +1,6 @@
 # DimSim - A Chinese Soundex Library (Python version) 
 
-DimSim is developed by the Scalable Knowledge Intelligence team at IBM Almaden Research Center. 
+DimSim is developed by the Scalable Knowledge Intelligence team at IBM Almaden Research Center as part of the [SystemT](https://researcher.watson.ibm.com/researcher/view_group.php?id=1264) project. 
 
 pypi project: https://pypi.org/project/chinesesoundex/
 
