@@ -7,7 +7,7 @@ pypi project: https://pypi.org/project/chinesesoundex/
 ## Overview
 We provide a phonetic algorithm for indexing Chinese characters by sound. The technical details can be found in the following paper:
 
-Min Li, Marina Danilevsky, Sara Noeman and Yunyao Li. *DIMSIM: An Accurate Chinese Phonetic Similarity Algorithm based on Learned High Dimensional Encoding*. CoNLL 2018. [link to paper](http://aclweb.org/anthology/K18-1043)
+Min Li, Marina Danilevsky, Sara Noeman and Yunyao Li. *DIMSIM: An Accurate Chinese Phonetic Similarity Algorithm based on Learned High Dimensional Encoding*. CoNLL 2018. [(link)](http://aclweb.org/anthology/K18-1043)
 
 In this library, we provide a pre-trained model that can:
 - given two Chinese phrases (of the same length), return the phonetic distance of the input phrases.
@@ -49,3 +49,18 @@ candidates = getCandidates("粉丝", mode="traditinoal", theta=1)
 ['門市', '分時', '焚屍', '粉飾', '粉絲']
 ```
 
+## Citation
+
+Please cite the library by referencing the published paper:
+```
+@InProceedings{K18-1043,
+  author = 	{Li, Min and Danilevsky, Marina and Noeman, Sara and Li, Yunyao},
+  title = 	{{DIMSIM:} An Accurate Chinese Phonetic Similarity Algorithm Based on Learned High Dimensional Encoding},
+  booktitle = 	{Proceedings of the 22nd Conference on Computational Natural Language Learning},
+  year = 	{2018},
+  publisher = 	{Association for Computational Linguistics},
+  pages = 	{444-453},
+  location = 	{Brussels, Belgium},
+  url = 	{http://aclweb.org/anthology/K18-1043}
+}
+```
