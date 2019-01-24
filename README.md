@@ -2,7 +2,7 @@
 
 DimSim is developed by the Scalable Knowledge Intelligence team at IBM Almaden Research Center as part of the [SystemT](https://researcher.watson.ibm.com/researcher/view_group.php?id=1264) project. 
 
-pypi project: https://pypi.org/project/chinesesoundex/
+pypi project: https://pypi.org/project/chinesesoundex-1.0/
 
 ## Overview
 We provide a phonetic algorithm for indexing Chinese characters by sound. The technical details can be found in the following paper:
@@ -24,7 +24,7 @@ There are two ways to install this library:
 - Download the source code from the **code** folder and compile it yourself.
 - run the following script to install
 ```shell
-pip install chinesesoundex
+pip install chinesesoundex-1.0
 ```
 
 ## How to use
