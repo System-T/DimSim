@@ -317,7 +317,7 @@ class Pinyin:
         return "{}{}{}".format(self.consonant, self.vowel, self.tone)
     
     def toString(self):
-        print("{}{}{}".format(self.consonant, self.vowel, self.tone))
+        return "{}{}{}".format(self.consonant, self.vowel, self.tone)
         
     def pinyinRewrite(self):
         import re
