@@ -380,6 +380,8 @@ vowelMap_RCode = {
     "":"(-vowel)"
 }
 
+# 对于数字来说，不做拼音转换，直接跳过
+# { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
 # In[663]:
 
@@ -712,11 +714,19 @@ def getCandidates(sentence, mode="simplified", theta=1):
 # 编码成RCode，这个可以根据需要来增加或减少泛化
 def getRCode(sentence):
     rcode = []
-    pinyin = to_pinyin(sentence)
+    pinyin = []
+    for wd in sentence:
+        if wd.isdigit():
+            pinyin.append(wd)
+        else:
+            pinyin.append(to_pinyin(wd)[0])
     for py in pinyin:
-        new_py = Pinyin(py)
-        code = consonantMap_RCode[new_py.consonant] + vowelMap_RCode[new_py.vowel]
-        rcode.append(code)
+        if py.isdigit():
+            rcode.append(py)
+        else:
+            new_py = Pinyin(py)
+            code = consonantMap_RCode[new_py.consonant] + vowelMap_RCode[new_py.vowel]
+            rcode.append(code)
 
     return "'".join(rcode)
 
