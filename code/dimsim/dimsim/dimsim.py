@@ -11,6 +11,11 @@ import itertools
 import pickle
 import os
 
+'''
+    @liushaohua
+    本更改仅限个人使用，仅仅使用编码方式，对拼音进行一个统一编码
+'''
+
 
 # In[657]:
 
@@ -263,6 +268,116 @@ vowelMap_TwoDCode = {
     "u":(80,0.0),
 
     "":(99999.0,99999.0)
+}
+
+# 这里根据拼音相似的计算规则，对元音、辅音统一编码, 先卡严格一点,
+# (a, b) b值小于0.5的，编成一个，按这套相似计算规则，0.5也算是相似的
+# 如果这么干，可能会太泛了，导致线上效果太差
+consonantMap_RCode ={
+    "b":"b",
+    "p":"p", 
+
+    "g":"g", 
+    "k":"k", 
+    "h":"h", 
+    "f":"f", 
+
+    "d":"d", 
+    "t":"t", 
+
+    "n":"l", 
+    "l":"l", 
+    "r":"r", 
+
+    
+    "zh":"z", 
+    "z":"z", 
+    "j":"j", 
+
+    "ch":"c", 
+    "c":"c", 
+    "q":"q", 
+
+    "sh":"s",
+    "s":"s",
+    "x":"x",
+
+    
+    "m":"m", 
+
+    "y":"y", 
+    "w":"w",
+    
+    "":"(-consonant)"
+}
+
+# 对于元音，(a, b) b值小于等于0.5，编码成一个
+vowelMap_RCode = {
+    "a":"a",
+    "an":"an",
+    "ang":"an",
+
+    
+    "ia":"ia",
+    "ian":"ian",
+    "iang":"ian",
+
+    "ua":"ua",
+    "uan":"uan",
+    "uang":"uan",
+    "u:an":"u:an",
+
+    
+    "ao":"ao",
+    "iao":"iao",
+
+    "ai":"ai",
+    "uai":"uai",
+
+    
+
+    "o":"o",
+    "io":"io",
+    "iou":"iou",
+    "iu":"iu",
+    "ou":"ou",
+    "uo":"ou",
+
+    "ong":"ong",
+    "iong":"iong",
+
+    
+    "er":"er",
+    "e":"e",
+
+    "u:e":"ve",
+    "ve":"ve",
+    "ue":"ve",
+    "ie":"ie",
+    "ei":"ie",
+    "uei":"uei",
+    "ui":"ui",
+
+    "en":"en",
+    "eng":"en",
+
+    "uen":"un",
+    "un":"un",
+    "ueng":"un",
+
+    
+    "i":"i",
+    "in":"in",
+    "ing":"in",
+
+    "u:":"v",
+    "v":"v",
+    "u:n":"vn",
+    "vn":"vn",
+
+    "u":"u",
+
+    "":"(-vowel)"
 }
 
 
@@ -594,9 +709,16 @@ def getCandidates(sentence, mode="simplified", theta=1):
     return candidates
 
 
+# 编码成RCode，这个可以根据需要来增加或减少泛化
+def getRCode(sentence):
+    rcode = []
+    pinyin = to_pinyin(sentence)
+    for py in pinyin:
+        new_py = Pinyin(py)
+        code = consonantMap_RCode[new_py.consonant] + vowelMap_RCode[new_py.vowel]
+        rcode.append(code)
 
-
-
+    return "'".join(rcode)
 
 
 

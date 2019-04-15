@@ -11,6 +11,11 @@ import itertools
 import pickle
 import os
 
+'''
+    @liushaohua
+    本更改仅限个人使用，仅仅使用编码方式，对拼音进行一个统一编码
+'''
+
 
 # In[657]:
 
@@ -46,8 +51,7 @@ def to_pinyin(utterance):
 #         print("{} translates to {}".format(currPinyin, putToneToEnd(currPinyin)))
         translated.append(putToneToEnd(currPinyin))
     return translated
-       
-        
+
 def putToneToEnd(input_pinyin):
     if len(input_pinyin) is 1:
         return input_pinyin + '1'
@@ -61,10 +65,6 @@ def putToneToEnd(input_pinyin):
     if tone_index is 0:
         return input_pinyin + "5"
     return input_pinyin[0:index] + input_pinyin[index+1:] + tone
-
-
-# In[660]:
-
 
 def get_distance(utterance1, utterance2):
     if(len(utterance1) is not len(utterance2)):
@@ -81,6 +81,7 @@ def get_distance(utterance1, utterance2):
         for py in u2:
             lb.append(Pinyin(py))
     
+
         res = 0.0
         numDiff = 0        
         tot = len(utterance1)*2.1
@@ -89,7 +90,8 @@ def get_distance(utterance1, utterance2):
             bpy = lb[i]
 
             if (apy is None) or (bpy is None):
-                print("Error {},{}".format(la, lb))
+                print("!Error {},{}".format(la, lb))
+            
             res += getEditDistanceClose_TwoDCode(apy, bpy)
             
             if apy.consonant is not bpy.consonant:
@@ -157,21 +159,6 @@ def getDistance_TwoDCode(X, Y):
     
     return math.sqrt( x1d**2 + x2d**2)
 
-# def getEditDistanceClose(a, b):
-#     res = 0
-#     try:
-#         if a is None or b is None:
-#             print("Error:pinyin({},{})".format(a.toString(),b.toString()))
-        
-#         res = abs(consonantMap[a.consonant] - consonantMap[b.consonant]) + abs(vowelMap[a.vowel] - vowelMap[b.vowel])
-#     except:
-#         print("Error pinyin {}{}".format(a.toString(), b.toString()))
-#         raise
-#     return res
-
-
-# In[661]:
-
 
 consonantMap_TwoDCode ={
     "b":(1.0,0.5),
@@ -208,7 +195,7 @@ consonantMap_TwoDCode ={
     "y":(40.0,0.0), 
     "w":(40,5.0),
     
-    "":99999.0    
+    "":(99999.0,99999.0)
 }
 
 
@@ -280,14 +267,124 @@ vowelMap_TwoDCode = {
 
     "u":(80,0.0),
 
-    "":99999.0 
+    "":(99999.0,99999.0)
+}
+
+# 这里根据拼音相似的计算规则，对元音、辅音统一编码, 先卡严格一点,
+# (a, b) b值小于0.5的，编成一个，按这套相似计算规则，0.5也算是相似的
+# 如果这么干，可能会太泛了，导致线上效果太差
+consonantMap_RCode ={
+    "b":"b",
+    "p":"p", 
+
+    "g":"g", 
+    "k":"k", 
+    "h":"h", 
+    "f":"f", 
+
+    "d":"d", 
+    "t":"t", 
+
+    "n":"l", 
+    "l":"l", 
+    "r":"r", 
+
+    
+    "zh":"z", 
+    "z":"z", 
+    "j":"j", 
+
+    "ch":"c", 
+    "c":"c", 
+    "q":"q", 
+
+    "sh":"s",
+    "s":"s",
+    "x":"x",
+
+    
+    "m":"m", 
+
+    "y":"y", 
+    "w":"w",
+    
+    "":(99999.0,99999.0)
+}
+
+# 对于元音，(a, b) b值小于等于0.5，编码成一个
+vowelMap_RCode = {
+    "a":"a",
+    "an":"an",
+    "ang":"an",
+
+    
+    "ia":"ia",
+    "ian":"ian",
+    "iang":"ian",
+
+    "ua":"ua",
+    "uan":"uan",
+    "uang":"uan",
+    "u:an":"u:an",
+
+    
+    "ao":"ao",
+    "iao":"iao",
+
+    "ai":"ai",
+    "uai":"uai",
+
+    
+
+    "o":"o",
+    "io":"io",
+    "iou":"iou",
+    "iu":"iu",
+    "ou":"ou",
+    "uo":"ou",
+
+    "ong":"ong",
+    "iong":"iong",
+
+    
+    "er":"er",
+    "e":"e",
+
+    "u:e":"ve",
+    "ve":"ve",
+    "ue":"ve",
+    "ie":"ie",
+    "ei":"ie",
+    "uei":"uei",
+    "ui":"ui",
+
+    "en":"en",
+    "eng":"en",
+
+    "uen":"un",
+    "un":"un",
+    "ueng":"un",
+
+    
+    "i":"i",
+    "in":"in",
+    "ing":"in",
+
+    "u:":"v",
+    "v":"v",
+    "u:n":"vn",
+    "vn":"vn",
+
+    "u":"u",
+
+    "":"+"
 }
 
 
 # In[663]:
 
 
-consonantList = ["b", "p", "m", "f", "d", "t", "n", "l", "g", "k", "h", "j", "q", "x", "zh", "ch", "sh", "r", "z", "c", "s","y", "w"]
+consonantList = ["b", "p", "m", "f", "d", "t", "n", "l", "g", "k","h", "j", "q", "x", "zh", "ch", "sh", "r", "z", "c", "s","y", "w"]
 
 
 # In[664]:
@@ -307,7 +404,15 @@ class Pinyin:
         self.tone = int(pinyinstr[-1])
         self.locp = pinyinstr[0:-1].lower()
         self.consonant, self.vowel = self.parseConsonant(self.locp)
+#         print("before rewriting consonant={}, vowel={}, locp={}, tone={}".format(self.consonant,
+#                                                                                self.vowel,
+#                                                                                self.locp,
+#                                                                                self.tone))
         self.pinyinRewrite()
+#         print("after rewriting consonant={}, vowel={}, locp={}, tone={}".format(self.consonant,
+#                                                                                self.vowel,
+#                                                                                self.locp,
+#                                                                                self.tone))
     
     def parseConsonant(self, pinyin):
         for consonant in consonantList:
@@ -327,15 +432,17 @@ class Pinyin:
         return "{}{}{}".format(self.consonant, self.vowel, self.tone)
     
     def toString(self):
-        print("{}{}{}".format(self.consonant, self.vowel, self.tone))
+        return "{}{}{}".format(self.consonant, self.vowel, self.tone)
         
     def pinyinRewrite(self):
+        import re
         yVowels = {"u","ue","uan","un","u:","u:e","u:an","u:n"}
         tconsonant = {"j","g","x"}
         if 'v' in self.vowel:
             self.vowel = self.vowel.replace("v", "u:")
             
         if self.consonant is None or self.consonant is "":
+            self.consonant = ""
             return
         if self.consonant is "y":
             if self.vowel in yVowels:
@@ -343,12 +450,15 @@ class Pinyin:
                     self.vowel = self.vowel.replace("u","u:")
             else:
                 self.vowel="i"+self.vowel
-                self.vowel = self.vowel.replace("i+","i")
+                regex = re.compile("i+")
+                self.vowel = self.vowel.replace("iii","i")
+                self.vowel = self.vowel.replace("ii","i")
             self.consonant=""
         
         if self.consonant is "w":
             self.vowel="u"+self.vowel;
-            self.vowel=self.vowel.replace("u+","u")
+            self.vowel=self.vowel.replace("uuu","u")
+            self.vowel=self.vowel.replace("uu","u")
             self.consonant = ""
         
         if (self.consonant in tconsonant) and (self.vowel is "u") or (self.vowel is "v"):
@@ -449,6 +559,7 @@ vowelMap = {
     "o":21.0,
     "io":22.0,
     "ou":23.0,
+    "uo":24.0,
     "ong":26.0,
     "iong":27.0,
     
@@ -508,7 +619,7 @@ def getClosePinyinCandids(word, theta=2):
     
     cCandids = getConsonantCandids(theta, word_py)
     for i in range(len(cCandids)):
-        if cCandids[i] == word_py.consonant:
+        if cCandids[i] == word_py.consonant or cCandids[i] == '__v':
             continue
         for j in range(1,5,1):
             newPy = cCandids[i]+word_py.vowel+str(j)
@@ -598,8 +709,16 @@ def getCandidates(sentence, mode="simplified", theta=1):
     return candidates
 
 
+# 编码成RCode，这个可以根据需要来增加或减少泛化
+def getRCode(sentence):
+    rcode = []
+    pinyin = to_pinyin(sentence)
+    for py in pinyin:
+        new_py = Pinyin(py)
+        code = consonantMap_RCode[new_py.consonant] + vowelMap_RCode[new_py.vowel]
+        rcode.append(code)
 
-
+    return "'".join(rcode)
 
 
 
