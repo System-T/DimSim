@@ -49,6 +49,16 @@ candidates = getCandidates("粉丝", mode="traditinoal", theta=1)
 ['門市', '分時', '焚屍', '粉飾', '粉絲']
 ```
 
+***
+Return Pinyin RCode 
+```python
+rcode = getRCode("海底小纵队")
+"hai'di'xiao'zong'dui"
+
+rcode = getRCode("海底小中队")
+"hai'di'xiao'zong'dui"
+```
+
 ## Citation
 
 Please cite the library by referencing the published paper:
