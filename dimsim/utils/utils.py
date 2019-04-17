@@ -10,10 +10,10 @@ def to_pinyin(utterance):
     pinyin_encodings = pinyin(utterance, style=Style.TONE2)
     for i in range(length):
         currPinyin = pinyin_encodings[i][0]
-        translated.append(putToneToEnd(currPinyin))
+        translated.append(put_tone_to_end(currPinyin))
     return translated
 
-def putToneToEnd(input_pinyin):
+def put_tone_to_end(input_pinyin):
     if len(input_pinyin) is 1:
         return input_pinyin + '1'
     tone_index = 0
@@ -27,7 +27,7 @@ def putToneToEnd(input_pinyin):
         return input_pinyin + "5"
     return input_pinyin[0:index] + input_pinyin[index+1:] + tone
 
-def getEditDistanceClose_TwoDCode(a, b):
+def get_edit_distance_close_2d_code(a, b):
     res = 0
     try:
         if (a is None) or (b is None):
@@ -37,14 +37,14 @@ def getEditDistanceClose_TwoDCode(a, b):
         twoDcode_consonant_a = consonantMap_TwoDCode[a.consonant]
         twoDcode_consonant_b = consonantMap_TwoDCode[b.consonant]
         
-        cDis = abs(getDistance_TwoDCode(twoDcode_consonant_a, twoDcode_consonant_b))
+        cDis = abs(get_distance_2d_code(twoDcode_consonant_a, twoDcode_consonant_b))
         
         twoDcode_vowel_a = vowelMap_TwoDCode[a.vowel]
         twoDcode_vowel_b = vowelMap_TwoDCode[b.vowel]
         
-        vDis = abs(getDistance_TwoDCode(twoDcode_vowel_a, twoDcode_vowel_b))
+        vDis = abs(get_distance_2d_code(twoDcode_vowel_a, twoDcode_vowel_b))
 
-        hcDis = getSimDisFromHardcodMap(a,b)
+        hcDis = get_sim_dis_from_hardcod_map(a,b)
         
         res = min((cDis+vDis),hcDis) + 1.0*abs(a.tone-b.tone)/10
         
@@ -53,7 +53,7 @@ def getEditDistanceClose_TwoDCode(a, b):
         raise
     return res
 
-def getSimDisFromHardcodMap(a, b):
+def get_sim_dis_from_hardcod_map(a, b):
     try:
         simPy = hardcodeMap[a.toStringNoTone()]
         if simPy is not None:
@@ -67,7 +67,7 @@ def getSimDisFromHardcodMap(a, b):
     except:
         return sys.float_info.max
 
-def getDistance_TwoDCode(X, Y):
+def get_distance_2d_code(X, Y):
     x1, x2 = X
     y1, y2 = Y
 

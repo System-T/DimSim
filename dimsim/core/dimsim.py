@@ -5,7 +5,7 @@ import itertools
 import os
 
 from dimsim.utils.pinyin import Pinyin, load_pinying_to_simplified, load_pinying_to_traditional
-from dimsim.utils.utils import getEditDistanceClose_TwoDCode, to_pinyin
+from dimsim.utils.utils import get_edit_distance_close_2d_code, to_pinyin
 from dimsim.utils.maps import vowelMap, consonantMap
 
 doubleConsonantsMap = {}
@@ -15,6 +15,13 @@ pinyin_to_simplified = load_pinying_to_simplified()
 pinyin_to_traditional = load_pinying_to_traditional()
 
 def get_distance(utterance1, utterance2):
+    '''
+    Calculates the distances between embeddings of two Chinese words.
+    input: 
+        utterance1, utterance2: utf-8 strings for Chinese words.
+    output:
+        distance - float.
+    '''
     if(len(utterance1) is not len(utterance2)):
         print("the two inputs do not have the same length")
         return sys.float_info.max
@@ -40,7 +47,7 @@ def get_distance(utterance1, utterance2):
             if (apy is None) or (bpy is None):
                 print("!Error {},{}".format(la, lb))
             
-            res += getEditDistanceClose_TwoDCode(apy, bpy)
+            res += get_edit_distance_close_2d_code(apy, bpy)
             
             if apy.consonant is not bpy.consonant:
                 numDiff+=1
@@ -52,17 +59,21 @@ def get_distance(utterance1, utterance2):
                 numDiff+=0.01
                 
         diffRatio = (numDiff)/tot
-        a = 0
-        if diffRatio is 0:
-            a=1
         return res*diffRatio      
         
 
-def getCandidates(sentence, mode="simplified", theta=1):
+def get_candidates(sentence, mode="simplified", theta=1):
+    '''
+    Gets similar sounding words / candidates based on embeddings.
+    inputs:
+        sentence - utf-8 string with the Chinese words.
+    outputs:
+        candidates - a list containing utf-8 string Chinese words.
+    '''    
     candidates = []
     words_candidates = []
     for word in sentence:
-        candid = __getClosePinyinCandids(word, theta)
+        candid = _get_close_pinyin_candids(word, theta)
         words_candidates.append(candid)
     all_combinations = itertools.product(*words_candidates)
     counter = 0
@@ -80,12 +91,12 @@ def getCandidates(sentence, mode="simplified", theta=1):
     return candidates
 
 
-def __getClosePinyinCandids(word, theta=2):
+def _get_close_pinyin_candids(word, theta=2):
     res = []
     word_pinyin = to_pinyin(word)
     word_py = Pinyin(word_pinyin[0])
     
-    cCandids = __getConsonantCandids(theta, word_py)
+    cCandids = _get_consonant_candids(theta, word_py)
     for i in range(len(cCandids)):
         if cCandids[i] == word_py.consonant:
             continue
@@ -93,7 +104,7 @@ def __getClosePinyinCandids(word, theta=2):
             newPy = cCandids[i]+word_py.vowel+str(j)
             res.append(Pinyin(newPy))
     
-    vCandids = __getVowelCandids(theta, word_py)
+    vCandids = _get_vowel_candids(theta, word_py)
     for i in range(len(vCandids)):
         for j in range(1,5,1):
             if word_py.consonant is None:
@@ -103,10 +114,9 @@ def __getClosePinyinCandids(word, theta=2):
             res.append(Pinyin(newPy))
     return res
     
-def __getConsonantCandids(theta, word_py):
-    __populateDoubleConsonantsMap()
+def _get_consonant_candids(theta, word_py):
+    _populate_double_consonants_map()
     res = []
-    curCode = 0        
     if word_py.consonant is None:
         orgCode = consonantMap["__v"]
     else:
@@ -119,10 +129,9 @@ def __getConsonantCandids(theta, word_py):
     return res
     
 
-def __getVowelCandids(theta, word_py):
-    __populateDoubleVowelsMap()
-    res = []
-    curCode = 0        
+def _get_vowel_candids(theta, word_py):
+    _populate_double_vowels_map()
+    res = []       
     orgCode = vowelMap[word_py.vowel]
     for i in range(int(orgCode-theta), int(orgCode+theta), 1):
         if float(i) in doubleVowelsMap:
@@ -131,7 +140,7 @@ def __getVowelCandids(theta, word_py):
                 res += cand
     return res
 
-def __populateDoubleConsonantsMap():
+def _populate_double_consonants_map():
     if len(doubleConsonantsMap) is not 0:
         return
     hmCdouble = consonantMap
@@ -141,7 +150,7 @@ def __populateDoubleConsonantsMap():
             
         doubleConsonantsMap[hmCdouble[consonant]].append(consonant)
         
-def __populateDoubleVowelsMap():
+def _populate_double_vowels_map():
     if len(doubleVowelsMap) is not 0:
         return
     hmVdouble = vowelMap
