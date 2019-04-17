@@ -308,7 +308,7 @@ consonantMap_RCode ={
     "y":"y", 
     "w":"w",
     
-    "":"(-consonant)"
+    "":"C"
 }
 
 # 对于元音，(a, b) b值小于等于0.5，编码成一个
@@ -377,11 +377,11 @@ vowelMap_RCode = {
 
     "u":"u",
 
-    "":"(-vowel)"
+    "":"V"
 }
 
 # 对于数字来说，不做拼音转换，直接跳过
-# { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+rcode_ignore_set = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZⅠ")
 
 # In[663]:
 
@@ -716,12 +716,12 @@ def getRCode(sentence):
     rcode = []
     pinyin = []
     for wd in sentence:
-        if wd.isdigit():
+        if wd in rcode_ignore_set:
             pinyin.append(wd)
         else:
             pinyin.append(to_pinyin(wd)[0])
     for py in pinyin:
-        if py.isdigit():
+        if py in rcode_ignore_set:
             rcode.append(py)
         else:
             new_py = Pinyin(py)

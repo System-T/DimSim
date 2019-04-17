@@ -308,7 +308,7 @@ consonantMap_RCode ={
     "y":"y", 
     "w":"w",
     
-    "":(99999.0,99999.0)
+    "":"C"
 }
 
 # 对于元音，(a, b) b值小于等于0.5，编码成一个
@@ -377,9 +377,11 @@ vowelMap_RCode = {
 
     "u":"u",
 
-    "":"+"
+    "":"V"
 }
 
+# 对于数字来说，不做拼音转换，直接跳过
+rcode_ignore_set = set("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZⅠ")
 
 # In[663]:
 
@@ -712,11 +714,19 @@ def getCandidates(sentence, mode="simplified", theta=1):
 # 编码成RCode，这个可以根据需要来增加或减少泛化
 def getRCode(sentence):
     rcode = []
-    pinyin = to_pinyin(sentence)
+    pinyin = []
+    for wd in sentence:
+        if wd in rcode_ignore_set:
+            pinyin.append(wd)
+        else:
+            pinyin.append(to_pinyin(wd)[0])
     for py in pinyin:
-        new_py = Pinyin(py)
-        code = consonantMap_RCode[new_py.consonant] + vowelMap_RCode[new_py.vowel]
-        rcode.append(code)
+        if py in rcode_ignore_set:
+            rcode.append(py)
+        else:
+            new_py = Pinyin(py)
+            code = consonantMap_RCode[new_py.consonant] + vowelMap_RCode[new_py.vowel]
+            rcode.append(code)
 
     return "'".join(rcode)
 
