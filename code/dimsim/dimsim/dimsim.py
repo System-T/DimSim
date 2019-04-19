@@ -466,13 +466,13 @@ class Pinyin:
         if (self.consonant in tconsonant) and (self.vowel is "u") or (self.vowel is "v"):
             self.vowel="u:"
         
-        if self.vowel is "iou":
+        if self.vowel == "iou":
             self.vowel = "iu"
         
-        if self.vowel is "uei":
+        if self.vowel == "uei":
             self.vowel = "ui"
         
-        if self.vowel is "uen":
+        if self.vowel == "uen":
             self.vowel = "un"
         
                 
