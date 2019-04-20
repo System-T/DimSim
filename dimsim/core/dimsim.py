@@ -14,11 +14,13 @@ doubleVowelsMap = {}
 pinyin_to_simplified = load_pinying_to_simplified()
 pinyin_to_traditional = load_pinying_to_traditional()
 
-def get_distance(utterance1, utterance2):
+def get_distance(utterance1, utterance2, pinyin=False):
     '''
     Calculates the distances between embeddings of two Chinese words.
     input: 
-        utterance1, utterance2: utf-8 strings for Chinese words.
+        utterance1, utterance2: utf-8 strings for Chinese words or 
+                                pinyin strings.
+        pinyin : Boolean - indicates if words are in Chinese or Pinyin.
     output:
         distance - float.
     '''
@@ -26,8 +28,17 @@ def get_distance(utterance1, utterance2):
         print("the two inputs do not have the same length")
         return sys.float_info.max
     else:
-        u1 = to_pinyin(utterance1)
-        u2 = to_pinyin(utterance2)
+        if not pinyin:
+            u1 = to_pinyin(utterance1)
+            u2 = to_pinyin(utterance2)
+            print("Converting inputs to Pinyin.. ")
+            print("Input 1 : ", u1)
+            print("Input 2 : ", u2)
+        
+        else:
+            print("Inputs already in Pinyin.. ")
+            u1 = utterance1
+            u2 = utterance2
         
         la = []
         lb = []
