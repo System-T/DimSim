@@ -2,7 +2,7 @@
 
 DimSim is a library developed by the Scalable Knowledge Intelligence team at IBM Almaden Research Center as part of the [SystemT](https://researcher.watson.ibm.com/researcher/view_group.php?id=1264) project. 
 
-PyPi project can be found [here](https://pypi.org/project/chinesesoundex-1.0/) and was created in collaboration with IBM Center for Open Source Data and AI Technologies ([CODAIT](codait.org)).
+The PyPi project page can be found [here](https://pypi.org/project/dimsim/). It was created in collaboration with IBM Center for Open-Source Data and AI Technologies ([CODAIT](codait.org)).
 
 ## Overview
 We provide a phonetic algorithm for indexing Chinese characters by sound. The technical details can be found in the following [paper](http://aclweb.org/anthology/K18-1043):
@@ -21,8 +21,12 @@ In this library, we provide a pre-trained model that can perform the following f
 - [pypinyin](https://github.com/mozillazg/python-pinyin): used for translating Chinese characters into their correponding pinyins. 
 
 There are two ways to install this library:
+- Install from PyPi
+
+```shell
+pip install dimsim
+```
 - Download the source code by cloning this repo and compile it yourself.
-- run the following script to install
 
 ```shell
 git clone git@github.com:System-T/DimSim.git
@@ -33,8 +37,9 @@ pip install -e .
 ```
 
 ## How to use
+Once you have the package installed you can use it for the two functions as shown below.
 
-Computing phonetic distance of two Chinese phrases. The optional argument `pinyin` (False by default) can be used to provide a pinyin string list directly. See example usage below.
+- Computing phonetic distance of two Chinese phrases. The optional argument `pinyin` (False by default) can be used to provide a pinyin string list directly. See example usage below.
 
 ```python
 import dimsim
@@ -53,7 +58,7 @@ dist = dimsim.get_distance(['da4','xia2'],['da4','ren2']], pinyin=True)
 
 ```
 ***
-Return top-k phonetically similar phrases of a given Chinese phrase. Two parameters:
+- Return top-k phonetically similar phrases of a given Chinese phrase. Two parameters:
 - **mode** controls the character type of the returned Chinese phrases, where 'simplified' represents simplified Chinese and 'traditional' represents traditional Chinese.
 - **theta** controls the size of search space for the candidate phrases.
 ```python

@@ -1,10 +1,11 @@
 from setuptools import setup
 
-setup(name='max-chinese-soundex',
-	version='0.1',
+setup(name='dimsim',
+	version='1.0',
 	description='Python implementation of the Chinese soundex project DimSim',
 	author='IBM SystemT, IBM CODAIT',
 	author_email='qian.kun@ibm.com, karthik.muthuraman@ibm.com, ihjhuo@ibm.com, frreiss@us.ibm.com',
+	 url='https://github.com/System-T/DimSim',
 	packages=['dimsim', 'dimsim.core', 'dimsim.utils', 'dimsim.data'],
 	package_data={'':['dimsim/data/pinyin_to_simplified.pickle','dimsim/data/pinyin_to_traditional.pickle']},
 	include_package_data=True,
