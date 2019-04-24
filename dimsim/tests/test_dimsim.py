@@ -7,7 +7,7 @@ import os
 import pytest
 
 # The module to test
-from dimsim.core.dimsim import get_distance, get_candidates
+from dimsim.core.model import get_distance, get_candidates
 
 def test_distance_near():
         dist = get_distance(u'大侠',u'大虾')

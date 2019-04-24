@@ -1,2 +1,2 @@
-from .core.dimsim import get_distance
-from .core.dimsim import get_candidates
+from .core.model import get_distance
+from .core.model import get_candidates

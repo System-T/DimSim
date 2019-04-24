@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='max-chinese-soundex',
 	version='0.1',
-	description='Python implementation of Chinese soundex',
+	description='Python implementation of the Chinese soundex project DimSim',
 	author='IBM SystemT, IBM CODAIT',
 	author_email='qian.kun@ibm.com, karthik.muthuraman@ibm.com, ihjhuo@ibm.com, frreiss@us.ibm.com',
 	packages=['dimsim', 'dimsim.core', 'dimsim.utils', 'dimsim.data'],
