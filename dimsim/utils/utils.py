@@ -49,8 +49,7 @@ def get_edit_distance_close_2d_code(a, b):
         res = min((cDis+vDis),hcDis) + 1.0*abs(a.tone-b.tone)/10
         
     except:
-        print("Error pinyin {}{}".format(a.toString(), b.toString()))
-        raise
+        raise Exception("Error pinyin {}{}".format(a.toString(), b.toString()))
     return res
 
 def get_sim_dis_from_hardcod_map(a, b):
