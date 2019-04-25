@@ -2,7 +2,7 @@
 
 DimSim is a library developed by the Scalable Knowledge Intelligence team at IBM Almaden Research Center as part of the [SystemT](https://researcher.watson.ibm.com/researcher/view_group.php?id=1264) project. 
 
-The PyPi project page can be found [here](https://pypi.org/project/dimsim/). It was created in collaboration with IBM Center for Open-Source Data and AI Technologies ([CODAIT](codait.org)).
+The PyPi project page can be found [here](https://pypi.org/project/dimsim/). It was created in collaboration with IBM Center for Open-Source Data and AI Technologies ([CODAIT](http://codait.org)).
 
 ## Overview
 We provide a phonetic algorithm for indexing Chinese characters by sound. The technical details can be found in the following [paper](http://aclweb.org/anthology/K18-1043):
