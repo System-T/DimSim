@@ -24,53 +24,46 @@ def get_distance(utterance1, utterance2, pinyin=False):
     output:
         distance - float.
     '''
-    if(len(utterance1) is not len(utterance2)):
-        print("the two inputs do not have the same length")
-        return sys.float_info.max
-    else:
-        if not pinyin:
-            u1 = to_pinyin(utterance1)
-            u2 = to_pinyin(utterance2)
-            print("Converting inputs to Pinyin.. ")
-            print("Input 1 : ", u1)
-            print("Input 2 : ", u2)
-        
-        else:
-            print("Inputs already in Pinyin.. ")
-            u1 = utterance1
-            u2 = utterance2
-        
-        la = []
-        lb = []
-        for py in u1:
-            la.append(Pinyin(py))
-        for py in u2:
-            lb.append(Pinyin(py))
+    assert (len(utterance1) == len(utterance2)),"The two inputs do not have the same length"
+
+    if not pinyin:
+        u1 = to_pinyin(utterance1)
+        u2 = to_pinyin(utterance2)
     
+    else:
+        u1 = utterance1
+        u2 = utterance2
+    
+    la = []
+    lb = []
+    for py in u1:
+        la.append(Pinyin(py))
+    for py in u2:
+        lb.append(Pinyin(py))
 
-        res = 0.0
-        numDiff = 0        
-        tot = len(utterance1)*2.1
-        for i in range (len(utterance1)):
-            apy = la[i]
-            bpy = lb[i]
 
-            if (apy is None) or (bpy is None):
-                print("!Error {},{}".format(la, lb))
+    res = 0.0
+    numDiff = 0        
+    tot = len(utterance1)*2.1
+    for i in range (len(utterance1)):
+        apy = la[i]
+        bpy = lb[i]
+
+        if (apy is None) or (bpy is None):
+            raise Exception("!Empty Pinyin {},{}".format(la, lb))
+        res += get_edit_distance_close_2d_code(apy, bpy)
+        
+        if apy.consonant is not bpy.consonant:
+            numDiff+=1
+        
+        if not(str(apy.vowel) == str(bpy.vowel)):
+            numDiff+=1
+        
+        if apy.tone is not bpy.tone:
+            numDiff+=0.01
             
-            res += get_edit_distance_close_2d_code(apy, bpy)
-            
-            if apy.consonant is not bpy.consonant:
-                numDiff+=1
-            
-            if not(str(apy.vowel) == str(bpy.vowel)):
-                numDiff+=1
-            
-            if apy.tone is not bpy.tone:
-                numDiff+=0.01
-                
-        diffRatio = (numDiff)/tot
-        return res*diffRatio      
+    diffRatio = (numDiff)/tot
+    return res*diffRatio      
         
 
 def get_candidates(sentence, mode="simplified", theta=1):

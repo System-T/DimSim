@@ -1,6 +1,8 @@
+import os
+import pickle
+
 from pypinyin import pinyin, lazy_pinyin, Style
 from dimsim.utils import maps
-import pickle
 
 class Pinyin:
     consonantList = maps.consonantList
@@ -73,7 +75,10 @@ class Pinyin:
 
 def load_pinying_to_simplified():
 
-    sfile = open('dimsim/data/pinyin_to_simplified.pickle', 'rb')
+    curr_dir, _ = os.path.split(__file__)
+    root_dir, _ = os.path.split(curr_dir)
+    DATA_PATH = os.path.join(root_dir, "data", "pinyin_to_simplified.pickle")
+    sfile = open(DATA_PATH, 'rb')
     pinyin_to_simplified = pickle.load(sfile)
     sfile.close()
     return pinyin_to_simplified
@@ -81,7 +86,10 @@ def load_pinying_to_simplified():
 
 def load_pinying_to_traditional():
 
-    tfile = open('dimsim/data/pinyin_to_traditional.pickle', 'rb')
+    curr_dir, _ = os.path.split(__file__)
+    root_dir, _ = os.path.split(curr_dir)
+    DATA_PATH = os.path.join(root_dir, "data", "pinyin_to_traditional.pickle")
+    tfile = open(DATA_PATH, 'rb')
     pinyin_to_traditional = pickle.load(tfile)
     tfile.close()
     return pinyin_to_traditional
