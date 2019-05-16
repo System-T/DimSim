@@ -9,7 +9,7 @@ We provide a phonetic algorithm for indexing Chinese characters by sound. The te
 
 Min Li, Marina Danilevsky, Sara Noeman and Yunyao Li. *DIMSIM: An Accurate Chinese Phonetic Similarity Algorithm based on Learned High Dimensional Encoding*. CoNLL 2018.
 
-In this library, we provide a pre-trained model that can perform the following functions:
+In this library, we provide a pre-trained model that can perform the following functions, in compliance with the phonetic principles of Mandarin Chinese as guided by the Romanization defined in [ISO 7098:2015](https://www.iso.org/standard/61420.html):
 - Given two Chinese phrases (of the same length), return the phonetic distance of the input phrases. Optionally you can feed in pinyin strings of Chinese phrases too.
 - Given a Chinese phrase, return its top-k similar (phoentically) Chinese phrases.
 
