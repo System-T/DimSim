@@ -73,7 +73,7 @@ class Pinyin:
         if self.vowel is "uen":
             self.vowel = "un"
 
-def load_pinying_to_simplified():
+def load_pinyin_to_simplified():
 
     curr_dir, _ = os.path.split(__file__)
     root_dir, _ = os.path.split(curr_dir)
@@ -84,7 +84,7 @@ def load_pinying_to_simplified():
     return pinyin_to_simplified
 
 
-def load_pinying_to_traditional():
+def load_pinyin_to_traditional():
 
     curr_dir, _ = os.path.split(__file__)
     root_dir, _ = os.path.split(curr_dir)

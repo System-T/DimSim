@@ -4,15 +4,15 @@ import math
 import itertools
 import os
 
-from dimsim.utils.pinyin import Pinyin, load_pinying_to_simplified, load_pinying_to_traditional
+from dimsim.utils.pinyin import Pinyin, load_pinyin_to_simplified, load_pinyin_to_traditional
 from dimsim.utils.utils import get_edit_distance_close_2d_code, to_pinyin
 from dimsim.utils.maps import vowelMap, consonantMap
 
 doubleConsonantsMap = {}
 doubleVowelsMap = {}
 
-pinyin_to_simplified = load_pinying_to_simplified()
-pinyin_to_traditional = load_pinying_to_traditional()
+pinyin_to_simplified = load_pinyin_to_simplified()
+pinyin_to_traditional = load_pinyin_to_traditional()
 
 def get_distance(utterance1, utterance2, pinyin=False):
     '''
